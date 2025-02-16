@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="author" content="Varush Siva" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contact</title>
+    <title>Edit Contact</title>
     <!-- CSS Section -->
     <link
       rel="stylesheet"
@@ -20,7 +20,7 @@
     <header></header>
 
     <main class="container">
-      <h1 class="mb-5">Contact Us</h1>
+      <h1 class="mb-5">Edit Contact</h1>
       <form>
         <div class="input-group mb-3">
           <label for="fullName" class="input-group-text">Full Name: </label>
@@ -65,32 +65,10 @@
           <span id="emailAddress-error" class="text-danger"></span>
         </div>
 
-        <div class="input-group mb-3">
-          <span class="input-group-text">Message: </span>
-          <textarea
-            class="form-control"
-            id="message"
-            name="message"
-            aria-describedby="Message Are"
-            aria-label="Message Are"
-          ></textarea>
-        </div>
-
-        <div class="input-group mb-3 form-check">
-          <input
-            type="checkbox"
-            class="form-check-input me-2"
-            id="subscribeCheckbox"
-            name="subscribeCheckbox"
-          />
-          <label class="form-check-label" for="subscribeCheckbox"
-            >Subscribe to our Contact List</label
-          >
-        </div>
         <div class="buttons">
-          <button id="sendButton" type="submit" class="btn btn-primary">
-            <i class="fa-solid fa-envelope"></i>
-            Submit
+          <button id="editButton" type="submit" class="btn btn-primary">
+            <i class="fa-regular fa-pen-to-square"></i>
+            Edit
           </button>
           <button id="cancelButton" type="reset" class="btn btn-warning">
             <i class="fa-solid fa-rotate-left"></i>
@@ -98,11 +76,6 @@
           </button>
         </div>
       </form>
-      <div class="col-lg-4 col-md-6 show-contact-list">
-        <a href="contact-list.html" class="btn btn-outline-primary mt-4"
-          ><i class="fa-solid fa-users"></i> Show Contact List</a
-        >
-      </div>
     </main>
 
     <!-- Scripting Section -->
