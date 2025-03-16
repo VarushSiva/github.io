@@ -1,0 +1,79 @@
+<h1 class="mb-5">Contact Us</h1>
+<form>
+  <div class="input-group mb-3">
+    <label for="fullName" class="input-group-text">Full Name: </label>
+    <input
+      type="text"
+      class="form-control"
+      id="fullName"
+      name="fullName"
+      aria-describedby="fullName-error"
+      required
+    />
+    <span id="fullName-error" class="text-danger"></span>
+  </div>
+
+  <div class="input-group mb-3">
+    <label for="contactNumber" class="input-group-text">Contact Number: </label>
+    <input
+      type="tel"
+      class="form-control"
+      id="contactNumber"
+      name="contactNumber"
+      aria-describedby="contactNumber-error"
+      required
+    />
+    <span id="contactNumber-error" class="text-danger"></span>
+  </div>
+
+  <div class="input-group mb-3">
+    <label for="emailAddress" class="input-group-text">Email Address: </label>
+    <input
+      type="email"
+      class="form-control"
+      id="emailAddress"
+      name="emailAddress"
+      aria-describedby="emailAddress-error"
+      required
+    />
+    <span id="emailAddress-error" class="text-danger"></span>
+  </div>
+
+  <div class="input-group mb-3">
+    <span class="input-group-text">Message: </span>
+    <textarea
+      class="form-control"
+      id="message"
+      name="message"
+      aria-describedby="Message Are"
+      aria-label="Message Are"
+    ></textarea>
+  </div>
+
+  <div class="input-group mb-3 form-check">
+    <input
+      type="checkbox"
+      class="form-check-input me-2"
+      id="subscribeCheckbox"
+      name="subscribeCheckbox"
+    />
+    <label class="form-check-label" for="subscribeCheckbox"
+      >Subscribe to our Contact List</label
+    >
+  </div>
+  <div class="buttons">
+    <button id="sendButton" type="submit" class="btn btn-primary">
+      <i class="fa-solid fa-envelope"></i>
+      Submit
+    </button>
+    <button id="cancelButton" type="reset" class="btn btn-warning">
+      <i class="fa-solid fa-rotate-left"></i>
+      Cancel
+    </button>
+  </div>
+</form>
+<div class="col-lg-4 col-md-6 show-contact-list">
+  <a href="contact-list.html" class="btn btn-outline-primary mt-4"
+    ><i class="fa-solid fa-users"></i> Show Contact List</a
+  >
+</div>

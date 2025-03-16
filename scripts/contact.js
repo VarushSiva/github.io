@@ -7,10 +7,10 @@
 (function (core) {
   class Contact {
     /**
-     * Constucts a new Contact instance
-     * @param {*} fullName
-     * @param {*} contactNumber
-     * @param {*} emailAddress
+     * Constructs a new Contact instance
+     * @param fullName
+     * @param contactNumber
+     * @param emailAddress
      */
     constructor(fullName = "", contactNumber = "", emailAddress = "") {
       this._fullName = fullName;
@@ -18,26 +18,21 @@
       this._emailAddress = emailAddress;
     }
 
-    // ------------------------------------------ Full Name ---------------------------------------
-    /**
-     * Gets the full name of the contact
-     * @returns {string}
-     */
     get fullName() {
       return this._fullName;
     }
+
     /**
-     * Sets the full name of the contact. Validates input to ensure it's a non-empty string
+     * Sets the full name of the contact. Validates inout to ensure it's a non-empty string.
      * @param fullName
      */
     set fullName(fullName) {
       if (typeof fullName !== "string" || fullName.trim() === "") {
-        throw new Error("Invalid fullName: must be a non-empty string");
+        throw new Error("Invalid fullName: must be non-empty string");
       }
       this._fullName = fullName;
     }
 
-    // ------------------------------------------ Contact Number ---------------------------------------
     /**
      * Gets the contact number of the contact
      * @returns {string}
@@ -45,38 +40,37 @@
     get contactNumber() {
       return this._contactNumber;
     }
+
     /**
-     * Sets the contact number of the contact. Validates input to ensure it's a 10 digit number
+     * Sets the contact number of the contact. Validates inout to ensure it matches 10 digits.
      * @param contactNumber
      */
     set contactNumber(contactNumber) {
-      const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
+      const phoneRegex = /^\d{3}-\d{3}-\d{4}$/; // 905-555-5555
       if (!phoneRegex.test(contactNumber)) {
-        throw new Error(
-          "Invalid contactNumber: Must be a 10-digit number in the format ###-###-####"
-        );
+        throw new Error("Invalid contact number: must be a 10-digit number");
       }
       this._contactNumber = contactNumber;
     }
 
-    // ------------------------------------------ Email Address ---------------------------------------
     /**
-     * Gets the email address of the contact
+     * Gets the email address for the contact
      * @returns {string}
      */
     get emailAddress() {
       return this._emailAddress;
     }
+
     /**
-     * Sets the email address of the contact. Validates input to ensure it's valid email format
-     * @param emailAddress
+     * Sets the email address of the contact. Validate input to ensure a standard email format
+     * @param address
      */
-    set emailAddress(emailAddress) {
+    set emailAddress(address) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(emailAddress)) {
-        throw new Error("Invalid emailAddress: Must be a valid emailAddress");
+      if (!emailRegex.test(address)) {
+        throw new Error("Invalid emailAddress: must be a non-empty string");
       }
-      this._emailAddress = emailAddress;
+      this._emailAddress = address;
     }
 
     /**
@@ -84,17 +78,19 @@
      * @returns {string}
      */
     toString() {
-      return `FullName: ${this._fullName}\nContactNumber: ${this._contactNumber}\nEmailAddress: ${this._emailAddress}`;
+      return `Full Name: ${this._fullName}\n,
+                Contact Number: ${this._contactNumber}\n,
+                Email Address: ${this._emailAddress},`;
     }
 
     /**
-     * Serializes the contact details into a string format suitable for storage
+     * Serialize the contact details into a string format suitable for storage
      * @returns {string|null}
      */
     serialize() {
       if (!this._fullName || !this._contactNumber || !this._emailAddress) {
         console.error(
-          "One or more of the contact properties are missing or invalid"
+          "One or more of the contact properties are missing or invalid."
         );
         return null;
       }
@@ -102,7 +98,7 @@
     }
 
     /**
-     * Deserializes a string (comma delimited) of contact details and update properties
+     * Deserializes a string (comma-delimited) of contact details and update properties
      * @param data
      */
     deserialize(data) {
@@ -117,5 +113,6 @@
       this._emailAddress = propArray[2];
     }
   }
+
   core.Contact = Contact;
 })(core || (core = {}));

@@ -1,5 +1,38 @@
 "use strict";
 
+import { LoadHeader } from "./header.js";
+import { Router } from "./router.js";
+import { LoadFooter } from "./footer.js";
+import { AuthGuard } from "./authguard.js";
+
+const pageTitles = {
+  "/": "Home",
+  "/home": "Home",
+  "/about": "About",
+  "/products": "Products",
+  "/services": "Services",
+  "/contact": "Contact Us",
+  "/contact-list": "Contacts List",
+  "/edit": "Edit Contact",
+  "/login": "Login Page",
+  "/register": "Register Page",
+  "/404": "Page Not Found",
+};
+
+const routes = {
+  "/404": "views/pages/404.html",
+  "/about": "views/pages/about.html",
+  "/contact": "views/pages/contact.html",
+  "/contact-list": "views/pages/contact-list.html",
+  "/edit": "views/pages/edit.html",
+  "/": "views/pages/home.html",
+  "/home": "views/pages/home.html",
+  "/login": "views/pages/login.html",
+  "/products": "views/pages/products.html",
+  "/register": "views/pages/register.html",
+  "/services": "views/pages/services.html",
+};
+
 // IIFE - Immediately Invoked Functional Expression
 
 (function () {
@@ -64,6 +97,11 @@
   function DisplayLoginPage() {
     console.log("[INFO] DisplayLoginPage called...");
 
+    if (sessionStorage.getItem("user")) {
+      router.navigate("/contact-list");
+      return;
+    }
+
     const messageArea = document.getElementById("messageArea");
     const loginButton = document.getElementById("loginButton");
     const cancelButton = document.getElementById("cancelButton");
@@ -123,7 +161,10 @@
 
           messageArea.classList.remove("alert", "alert-danger");
           messageArea.style.display = "none";
-          location.href = "contact-list.html";
+
+          LoadHeader().then(() => {
+            router.navigate("/contact-list");
+          });
         } else {
           messageArea.classList.add("alert", "alert-danger");
           messageArea.textContent =
@@ -141,12 +182,24 @@
     // Handle cancel event
     cancelButton.addEventListener("click", (event) => {
       document.getElementById("loginForm").reset();
-      location.href = "index.html";
+      router.navigate("/");
+    });
+
+    const registerLink = document.getElementById("registerLink");
+    registerLink.addEventListener("click", function (event) {
+      event.preventDefault();
+      router.navigate("/register");
     });
   }
 
   function DisplayRegisterPage() {
     console.log("[INFO] DisplayRegisterPage called...");
+
+    const signInLink = document.getElementById("signInLink");
+    signInLink.addEventListener("click", function (event) {
+      event.preventDefault();
+      router.navigate("/login");
+    });
   }
 
   /**
@@ -186,9 +239,9 @@
     // Save the update contact back to local storage (csv format)
     localStorage.setItem(page, contact.serialize());
 
-    alert("Contact updated successfully!");
+    // alert("Contact updated successfully!");
     // Redirect to contact list
-    location.href = "contact-list.html";
+    router.navigate("/contact-list");
   }
 
   /**
@@ -211,7 +264,7 @@
     AddContact(fullName, contactNumber, emailAddress);
 
     // Redirect to contact list
-    location.href = "contact-list.html";
+    router.navigate("/contact-list");
   }
 
   function addEventListenerOnce(elementId, event, handler) {
@@ -322,13 +375,13 @@
     let contact = new core.Contact(fullName, contactNumber, emailAddress);
     if (contact.serialize()) {
       // The primary key for a contact --> contact_ + date & time
-      let key = contact.fullName.substring(0, 1) + Date.now();
+      let key = `contact_${Date.now()}`;
       localStorage.setItem(key, contact.serialize());
     } else {
       console.error("[ERROR] Contact serialization failed");
     }
 
-    location.href = "contact-list.html";
+    router.navigate("/contact-list");
   }
   // Asynchronous -> No Waiting / No Block
   // Synchronous  -> Wait / Block
@@ -364,28 +417,31 @@
   function DisplayHomePage() {
     console.log("Calling DisplayHomePage()...");
 
-    let aboutUsBtn = document.getElementById("AboutUsBtn");
+    const main = document.querySelector("main");
+    main.innerHTML = "";
+
+    main.insertAdjacentHTML(
+      "beforeend",
+      `<button id="AboutUsBtn" class="btn btn-primary">About Us</button>
+
+        <div id="weather-data">
+            <h3>Weather Information</h3>
+            <p>Fetching weather data...</p>
+        </div>
+        
+        <p id="mainParagraph" class="mt-5">This is my main paragraph</p>
+        <article class="container">
+            <p id="ArticleParagraph" class="mt-3">This is my article paragraph</p>
+        </article>`
+    );
+
+    const aboutUsBtn = document.getElementById("AboutUsBtn");
     aboutUsBtn.addEventListener("click", () => {
-      location.href = "about.html";
+      router.navigate("/about");
     });
 
     // Add Call to weathermap.org
     DisplayWeather();
-
-    // Add content to the main element in index.html
-    // Position , Content
-    document
-      .querySelector("main")
-      .insertAdjacentHTML(
-        "beforeend",
-        `<p id="mainParagraph" class="mt-3">This is the first paragraph</p>`
-      );
-
-    // Add Article with paragraph content into the body in index.html
-    document.body.insertAdjacentHTML(
-      "beforeend",
-      `<article class="container"><p id="ArticleParagraph" class="mt-3">This is my article paragraph</p></article>`
-    );
   }
 
   function DisplayAboutPage() {
@@ -418,8 +474,13 @@
 
       alert("Form submitted successfully");
     });
-  }
 
+    const contactListButton = document.getElementById("showContactList");
+    contactListButton.addEventListener("click", function (event) {
+      event.preventDefault();
+      router.navigate("/contact-list");
+    });
+  }
   function DisplayContactListPage() {
     console.log("Calling DisplayContactListPage()...");
 
@@ -431,41 +492,59 @@
 
       let index = 1;
       for (const key of keys) {
-        let contactData = localStorage.getItem(key);
-        let contact = new core.Contact();
-        contact.deserialize(contactData);
-        data += `<tr><th scope="row" class="text-center">${index}</th>
-                 <td>${contact.fullName}</td>
-                 <td>${contact.contactNumber}</td>
-                 <td>${contact.emailAddress}</td>
-                 <td class="text-center">
-                  <button value="${key}" class="btn btn-warning btn-sm edit">
-                   <i class="fa-solid fa-pen-to-square"></i> Edit
-                  </button>
-                 </td>
-                 <td class="text-center">
-                  <button value=${key} class="btn btn-danger btn-sm delete">
-                   <i class="fa-solid fa-trash-can"></i> Delete
-                  </button>
-                 </td>
-                 </tr>`;
-        index++;
+        if (key.startsWith("contact_")) {
+          let contactData = localStorage.getItem(key);
+
+          try {
+            let contact = new core.Contact();
+            contact.deserialize(contactData);
+            data += `<tr><th scope="row" class="text-center">${index}</th>
+                           <td>${contact.fullName}</td>
+                           <td>${contact.contactNumber}</td>
+                           <td>${contact.emailAddress}</td>
+                           <td class="text-center">
+                            <button value="${key}" class="btn btn-warning btn-sm edit">
+                             <i class="fa-solid fa-pen-to-square"></i> Edit
+                            </button>
+                           </td>
+                           <td class="text-center">
+                            <button value=${key} class="btn btn-danger btn-sm delete">
+                             <i class="fa-solid fa-trash-can"></i> Delete
+                            </button>
+                           </td>
+                           </tr>`;
+            index++;
+          } catch (error) {
+            console.error("Error deserializing contact data.");
+          }
+        } else {
+          console.warn("Skipping non-contact key");
+        }
       }
       contactList.innerHTML = data;
     }
+
     const addButton = document.getElementById("addButton");
     if (addButton) {
       addButton.addEventListener("click", () => {
-        location.href = "edit.html#add";
+        router.navigate("/edit#add");
       });
     }
 
     const deleteButtons = document.querySelectorAll("button.delete");
     deleteButtons.forEach((button) => {
       button.addEventListener("click", function () {
+        const contactKey = this.value; // get the contact key from the button value
+        console.log(`[DEBUG] Deleting Contact ID: ${contactKey}`);
+
+        if (!contactKey.startsWith("contact_")) {
+          console.error("[ERROR] Invalid contact key format: ", contactKey);
+          return;
+        }
+
         if (confirm("Delete Contact, please confirm?")) {
           localStorage.removeItem(this.value);
-          location.href = "contact-list.html";
+          DisplayContactListPage();
         }
       });
     });
@@ -474,7 +553,7 @@
     editButtons.forEach((button) => {
       button.addEventListener("click", function () {
         // Concatenate the value from the edit link to the edit.html#{key}
-        location.href = "edit.html#" + this.value;
+        router.navigate(`/edit#${this.value}`);
       });
     });
   }
@@ -482,8 +561,9 @@
   function DisplayEditPage() {
     console.log("Calling DisplayEditPage()...");
 
-    const page = location.hash.substring(1);
-    console.log("page", page);
+    // Extract Contact ID from the path
+    const page = location.hash.split("#")[2];
+    // console.log("page", page);
     const editButton = document.getElementById("editButton");
 
     switch (page) {
@@ -535,47 +615,85 @@
     }
   }
 
+  /**
+   * Listen for changes and update the navigation links
+   */
+  document.addEventListener("routeLoaded", (event) => {
+    const newPath = event.detail; // extract the route from the event passed
+    console.log(`[INFO] Route Loaded: ${newPath}`);
+
+    LoadHeader().then(() => {
+      handlePageLogic(newPath);
+    });
+  });
+
+  /**
+   * Session expires, redirect the user to the login page
+   */
+  window.addEventListener("sessionExpired", () => {
+    console.warn("[SESSION] Redirecting to login page due to inactivity");
+    router.navigate("/login");
+  });
+
+  function handlePageLogic(path) {
+    // Update page title
+    document.title = pageTitles[path] || "Untitled Page";
+
+    // Check authentication level for protected pages
+    const protectedRoutes = ["/contact-list", "/edit"];
+
+    if (protectedRoutes.includes(path)) {
+      AuthGuard(); // redirect user to login page
+    }
+
+    switch (path) {
+      case "/":
+      case "/home":
+        DisplayHomePage();
+        break;
+      case "/about":
+        DisplayAboutPage();
+        break;
+      case "/contact":
+        DisplayContactPage();
+        attachValidationListener();
+        break;
+      case "/contact-list":
+        DisplayContactListPage();
+        break;
+      case "/edit":
+        DisplayEditPage();
+        attachValidationListener();
+        break;
+      case "/login":
+        DisplayLoginPage();
+        break;
+      case "/products":
+        DisplayProductsPage();
+        break;
+      case "/register":
+        DisplayRegisterPage();
+        break;
+      case "/services":
+        DisplayServicesPage();
+        break;
+      default:
+        console.warn(`[WARNING] No display logic found for: ${path}`);
+    }
+  }
+
   async function Start() {
     console.log("Starting...");
     console.log(`Current document title: ${document.title}`);
 
-    // Load header first, then run CheckLogin after
-    await LoadHeader().then(() => {
-      CheckLogin();
-    });
+    await LoadHeader();
+    await LoadFooter();
+    AuthGuard();
 
-    switch (document.title) {
-      case "Home":
-        DisplayHomePage();
-        break;
-      case "About":
-        DisplayAboutPage();
-        break;
-      case "Products":
-        DisplayProductsPage();
-        break;
-      case "Services":
-        DisplayServicesPage();
-        break;
-      case "Contact":
-        attachValidationListener();
-        DisplayContactPage();
-        break;
-      case "Contact List":
-        DisplayContactListPage();
-        break;
-      case "Edit Contact":
-        DisplayEditPage();
-        break;
-      case "Login":
-        DisplayLoginPage();
-        break;
-      case "Register":
-        DisplayRegisterPage();
-        break;
-      default:
-        console.error("No matching case for the page title");
-    }
+    const currentPath = location.hash.slice(1) || "/";
+    router.loadRoute(currentPath);
+
+    handlePageLogic(currentPath);
   }
   window.addEventListener("DOMContentLoaded", () => {
     console.log("DOM fully loaded and parsed");
