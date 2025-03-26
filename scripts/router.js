@@ -29,6 +29,7 @@ export class Router {
   loadRoute(path) {
     console.log(`[INFO] Loading route: ${path}`);
 
+    // edit#contact_123 -> edit
     const basePath = path.split("#")[0];
 
     if (!this.routes[basePath]) {
@@ -49,7 +50,7 @@ export class Router {
       .then((html) => {
         document.querySelector("main").innerHTML = html;
 
-        // Ensure the header is "reloaded" in "every" page change
+        // Ensure the for example the header is "reloaded" in "every" page change
         LoadHeader().then(() => {
           document.dispatchEvent(
             new CustomEvent("routeLoaded", { detail: basePath })

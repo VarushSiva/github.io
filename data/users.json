@@ -2,23 +2,20 @@
   "users": [
     {
       "DisplayName": "admin",
-      "Email Address": "admin@durhamcollege.ca",
       "Username": "admin",
       "Password": "password"
     },
 
     {
       "DisplayName": "Joker",
-      "Email Address": "Joker@dc.ca",
       "Username": "Joker",
       "Password": "Joker416"
     },
 
     {
-      "DisplayName": "Harley",
-      "Email Address": "Harley@dc.ca",
-      "Username": "Harley",
-      "Password": "Harley416"
+      "DisplayName": "Onna",
+      "Username": "Onna",
+      "Password": "100953269"
     }
   ]
 }

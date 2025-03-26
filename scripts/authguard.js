@@ -10,7 +10,7 @@ function resetSessionTimeout() {
 
     // Dispatch a global event to redirect the user
     window.dispatchEvent(new CustomEvent("sessionExpired"));
-  }, 15 * 60 * 1000); // 15 minutes of inactivity
+  }, 30 * 60 * 1000); //
 }
 
 // Listen for user activity
@@ -19,12 +19,13 @@ document.addEventListener("keypress", resetSessionTimeout);
 
 export function AuthGuard() {
   const user = sessionStorage.getItem("user");
-  const protectedRoutes = ["/contact-list", "/edit"];
+  const protectedRoutes = ["/opportunities-list"];
 
   if (!user && protectedRoutes.includes(location.hash.slice(1))) {
     console.log(
       "[AUTHGUARD] Unauthorized access detected, Redirecting to login page"
     );
+    location.hash = "/login";
     window.dispatchEvent(new CustomEvent("sessionExpired"));
   } else {
     resetSessionTimeout();

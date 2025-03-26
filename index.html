@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="author" content="Varush Siva" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
     <!-- CSS Section -->
@@ -14,24 +13,28 @@
       rel="stylesheet"
       href="./node_modules/@fortawesome/fontawesome-free/css/all.css"
     />
-    <link rel="stylesheet" href="./content/app.css" />
+    <link rel="stylesheet" href="./content/style.css" />
   </head>
   <body>
     <header></header>
+    <main class="container" style="align-items: center"></main>
 
-    <main class="container"></main>
+    <footer class="footer fixed-bottom"></footer>
 
-    <footer></footer>
+    <div class="scripts">
+      <!-- Scripting Section -->
+      <script src="./node_modules/jQuery/dist/jquery.min.js"></script>
+      <script src="./node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+      <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+      <script src="./scripts/namespace.js"></script>
+      <script src="./node_modules/chart.js/dist/chart.umd.js"></script>
+      <script type="module" src="./scripts/authguard.js"></script>
 
-    <!-- Scripting Section -->
-    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./scripts/namespace.js"></script>
-    <script type="module" src="./scripts/authguard.js"></script>
-
-    <!--Include as modules-->
-    <script type="module" src="./scripts/contact.js"></script>
-    <script type="module" src="./scripts/user.js"></script>
-    <script type="module" src="./scripts/router.js"></script>
-    <script type="module" src="./scripts/app.js"></script>
+      <!--Include as modules-->
+      <script type="module" src="./scripts/user.js"></script>
+      <script type="module" src="./scripts/router.js"></script>
+      <script type="module" src="./scripts/statistics.js"></script>
+      <script type="module" src="./scripts/main.js"></script>
+    </div>
   </body>
 </html>

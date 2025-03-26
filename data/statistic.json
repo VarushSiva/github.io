@@ -1,0 +1,34 @@
+[
+  { "title": "User", "start": "2025-01-01" },
+  {
+    "title": "Admin",
+    "start": "2025-01-07"
+
+  },
+  {
+    "title": "Staff",
+    "start": "2025-01-08"
+
+  },
+  {
+    "title": "Admin",
+    "start": "2025-02-07"
+
+  },
+  {
+    "title": "Staff",
+    "start": "2025-03-07"
+
+  },
+  {
+    "title": "Admin",
+    "start": "2025-04-07"
+
+  },
+  {
+    "title": "Staff",
+    "start": "2025-05-07"
+
+  }
+
+  ]

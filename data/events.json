@@ -1,0 +1,58 @@
+[
+  {
+    "cover": "./assets/volunteerdays-small.png",
+    "title": "Cleanups",
+    "date": "2025-01-01",
+    "time": "12:00:00",
+    "category": "Cleanups"
+  },
+  {
+    "cover": "./assets/workshop-speaker.jpg",
+    "title": "Workshops",
+    "date": "2025-01-07",
+    "time": "13:00:00",
+    "category": "Workshops"
+  },
+  {
+    "cover": "./assets/fundraiser-dinner.jpg",
+    "title": "Fundraisers",
+    "date": "2025-01-16",
+    "time": "16:00:00",
+    "category": "Fundraisers"
+  },
+  {
+    "cover": "./assets/workshop-speaker.jpg",
+    "title": "Workshops",
+    "date": "2025-01-11",
+    "time": "18:00:00",
+    "category": "Workshops"
+  },
+  {
+    "cover": "./assets/volunteerdays-small.png",
+    "title": "Cleanups",
+    "date": "2025-01-12",
+    "time": "14:30:00",
+    "category": "Cleanups"
+  },
+  {
+    "cover": "./assets/fundraiser-dinner.jpg",
+    "title": "Fundraisers",
+    "date": "2025-01-12",
+    "time": "17:30:00",
+    "category": "Fundraisers"
+  },
+  {
+    "cover": "./assets/volunteerdays-small.png",
+    "title": "Cleanups",
+    "date": "2025-01-13",
+    "time": "07:00:00",
+    "category": "Cleanups"
+  },
+  {
+    "cover": "./assets/fundraiser-dinner.jpg",
+    "title": "Fundraisers",
+    "date": "2025-01-28",
+    "time": "02:00:00",
+    "category": "Fundraisers"
+  }
+]

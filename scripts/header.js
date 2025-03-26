@@ -3,13 +3,20 @@
 /**
  * Dynamically load the header from the header.html
  */
-export function LoadHeader() {
+export async function LoadHeader() {
   console.log("[INFO] Loading Header...");
 
   return fetch("./views/components/header.html")
     .then((response) => response.text())
     .then((data) => {
-      document.querySelector("header").innerHTML = data;
+      const headerElement = document.querySelector("header");
+
+      if (!headerElement) {
+        console.error("[ERROR] Header element does not exist");
+        return;
+      }
+      headerElement.innerHTML = data;
+
       updateActiveNavLink();
       CheckLogin();
     })
@@ -25,7 +32,7 @@ export function updateActiveNavLink() {
   const navLinks = document.querySelectorAll("nav a");
 
   navLinks.forEach((link) => {
-    const linkPath = link.getAttribute("href").replace("#", "");
+    const linkPath = link.getAttribute("href")?.replace("#", "") || "";
 
     if (currentPath === linkPath) {
       link.classList.add("active");
@@ -47,7 +54,7 @@ function handleLogout(event) {
   });
 }
 
-function CheckLogin() {
+export function CheckLogin() {
   console.log("[INFO] Checking user login status...");
 
   const loginNav = document.getElementById("login");
@@ -62,10 +69,30 @@ function CheckLogin() {
   const userSession = sessionStorage.getItem("user");
 
   if (userSession) {
-    loginNav.innerHTML = `<i class="fa fas-sign-out-alt"></i> Logout`;
+    let userObject = JSON.parse(userSession);
+    let username = userObject.Username;
+
+    loginNav.innerHTML = `<li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="fa fas-sign-out-alt"></i> Welcome ${username}!
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a id="logout" class="dropdown-item">Log Out</a>
+          </li>
+        </ul>
+      </li>`;
     loginNav.href = "#";
-    loginNav.removeEventListener("click", handleLogout);
-    loginNav.addEventListener("click", handleLogout);
+
+    let logoutNav = document.getElementById("logout");
+    logoutNav.removeEventListener("click", handleLogout);
+    logoutNav.addEventListener("click", handleLogout);
   } else {
     loginNav.innerHTML = `<i class="fa fas-sign-in-alt"></i> Login`;
     loginNav.removeEventListener("click", handleLogout);
